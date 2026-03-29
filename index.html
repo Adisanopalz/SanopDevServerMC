@@ -58,7 +58,7 @@
             color: white;
         }
 
-        /* Glow Effects menyesuaikan warna Primary */
+        /* Glow Effects */
         .glow-text {
             text-shadow: 0 0 15px rgb(var(--primary-rgb) / 0.6);
             transition: text-shadow 0.3s;
@@ -77,11 +77,14 @@
             background-color: rgb(var(--primary-rgb) / 0.1);
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
+        /* Custom Scrollbar & Utility */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: rgb(var(--base-rgb)); }
         ::-webkit-scrollbar-thumb { background: rgb(var(--primary-rgb) / 0.5); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgb(var(--primary-rgb)); }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         /* Animations & Glassmorphism */
         .glass-panel {
@@ -111,7 +114,7 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Animations */
+        /* Floating Parallax */
         @keyframes float {
             0% { transform: translate(var(--px, 0px), var(--py, 0px)) scale(1); opacity: 0.1; }
             50% { transform: translate(var(--px, 0px), calc(var(--py, 0px) - 20px)) scale(1.05); opacity: 0.4; }
@@ -173,16 +176,18 @@
         }
 
         /* Hover Effect Tambahan */
-        .smooth-hover:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 15px 35px rgb(var(--primary-rgb) / 0.2);
-            z-index: 10;
+        @media (min-width: 1024px) {
+            .smooth-hover:hover {
+                transform: translateY(-6px) scale(1.02);
+                box-shadow: 0 15px 35px rgb(var(--primary-rgb) / 0.2);
+                z-index: 10;
+            }
         }
     </style>
 </head>
-<body class="antialiased selection:bg-primary selection:text-white relative" onclick="initAudio()">
+<body class="antialiased selection:bg-primary selection:text-white relative pb-28 lg:pb-0" onclick="initAudio()">
 
-    <!-- Ambient Background Elements (Akan berubah warna otomatis via Tailwind bg-primary) -->
+    <!-- Ambient Background Elements -->
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none" id="parallax-bg">
         <div class="ambient-blob absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] transition-transform duration-1000 ease-out"></div>
         <div class="ambient-blob absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[150px] transition-transform duration-1000 ease-out"></div>
@@ -194,16 +199,16 @@
         <div class="ambient-particle absolute top-[30%] left-[60%] w-1.5 h-1.5 bg-primary rounded-full floating-particle blur-[1px] transition-transform duration-700 ease-out" style="animation-delay: 1s;"></div>
     </div>
 
-    <!-- Theme Settings Panel (New Customization Feature) -->
-    <div id="theme-panel" class="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-3 transition-all duration-300">
+    <!-- Theme Settings Panel -->
+    <div id="theme-panel" class="fixed bottom-28 lg:bottom-6 right-6 z-[45] flex flex-col items-end gap-3 transition-all duration-300">
         <!-- Panel Content -->
-        <div id="theme-menu" class="glass-panel p-5 rounded-2xl w-64 translate-y-4 opacity-0 pointer-events-none transition-all duration-300 origin-bottom-right scale-95">
+        <div id="theme-menu" class="glass-panel p-5 rounded-3xl w-64 translate-y-4 opacity-0 pointer-events-none transition-all duration-300 origin-bottom-right scale-95">
             <h4 class="text-content font-bold mb-4 text-sm flex items-center gap-2">
                 <i class="fa-solid fa-palette text-primary"></i> Personalisasi Vibes
             </h4>
             
             <!-- Dark/Light Toggle -->
-            <div class="flex items-center justify-between mb-5 bg-base/50 p-3 rounded-xl border border-primary/20">
+            <div class="flex items-center justify-between mb-5 bg-base/50 p-3 rounded-2xl border border-primary/20">
                 <span class="text-xs font-semibold text-muted" id="mode-text">Dark Mode</span>
                 <button onclick="toggleThemeMode()" id="mode-toggle-btn" class="w-12 h-6 bg-primary/30 rounded-full relative transition-colors border border-primary/50">
                     <div id="mode-toggle-knob" class="w-5 h-5 bg-primary rounded-full absolute top-[1px] left-[2px] transition-transform shadow-md"></div>
@@ -233,14 +238,14 @@
     </div>
 
     <!-- Navbar -->
-    <nav class="fixed w-full z-50 bg-base/80 backdrop-blur-md border-b border-primary/30 transition-colors">
+    <nav class="fixed w-full z-40 bg-base/80 backdrop-blur-md border-b border-primary/30 transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-3">
                     <i class="fa-solid fa-dragon text-2xl text-primary"></i>
                     <span class="text-xl font-bold text-content tracking-wider glow-text">SANOPALZ</span>
                 </div>
-                <div>
+                <div class="hidden md:block">
                     <a href="#kalkulator" class="bg-primary hover:bg-primary/80 text-white px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 shadow-[0_0_15px_rgb(var(--primary-rgb)/0.4)]">
                         Mulai Setup
                     </a>
@@ -250,35 +255,36 @@
     </nav>
 
     <!-- Hero / Portfolio Section -->
-    <section class="pt-32 pb-16 px-4 fade-in-up is-visible">
+    <section class="pt-28 lg:pt-36 pb-12 lg:pb-16 px-4 fade-in-up is-visible">
         <div class="max-w-4xl mx-auto text-center">
-            <div class="inline-block px-4 py-1 rounded-full border border-primary/30 bg-primary/20 text-primary text-sm font-semibold mb-6">
+            <div class="inline-block px-4 py-1.5 rounded-full border border-primary/30 bg-primary/20 text-primary text-xs md:text-sm font-semibold mb-6">
                 <i class="fa-solid fa-fire-flame-curved mr-2"></i> Developer Sejak 2024
             </div>
-            <h1 class="text-5xl md:text-7xl font-extrabold text-content mb-6 tracking-tight">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-content mb-4 lg:mb-6 tracking-tight leading-tight">
                 Forging <span class="text-primary glow-text transition-colors">Minecraft</span> Realms.
             </h1>
-            <p class="text-lg md:text-xl text-muted mb-10 leading-relaxed">
-                Halo, saya <span class="text-content font-bold">Sanopalz</span>. Spesialis developer server Minecraft dan panel Pterodactyl. Saya bisa menangani segala jenis server, dari SMP ringan hingga modpack hardcore dan jaringan proxy raksasa.
+            <p class="text-base md:text-xl text-muted mb-8 lg:mb-10 leading-relaxed px-2">
+                Halo, saya <span class="text-content font-bold">Sanopalz</span>. Spesialis developer server Minecraft dan panel Pterodactyl. Menangani dari SMP ringan hingga modpack hardcore dan jaringan proxy raksasa.
             </p>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-left mt-8">
-                <div class="glass-panel p-5 rounded-3xl smooth-hover hover:-translate-y-2 hover:border-primary/50">
+            <!-- Mobile Horizontal Scroll, Desktop Grid -->
+            <div class="flex lg:grid lg:grid-cols-4 gap-4 text-left mt-8 overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4 -mx-4 px-4 lg:mx-0 lg:px-0 lg:pb-0">
+                <div class="glass-panel p-5 rounded-3xl min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center smooth-hover hover:-translate-y-2 hover:border-primary/50">
                     <i class="fa-solid fa-server text-3xl text-primary mb-3"></i>
                     <h3 class="font-bold text-content text-xl">40+</h3>
                     <p class="text-sm text-muted">Server Aktif</p>
                 </div>
-                <div class="glass-panel p-5 rounded-3xl smooth-hover hover:-translate-y-2 hover:border-primary/50">
+                <div class="glass-panel p-5 rounded-3xl min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center smooth-hover hover:-translate-y-2 hover:border-primary/50">
                     <i class="fa-solid fa-layer-group text-3xl text-primary mb-3"></i>
                     <h3 class="font-bold text-content text-xl">20+</h3>
                     <p class="text-sm text-muted">Varian Series</p>
                 </div>
-                <div class="glass-panel p-5 rounded-3xl smooth-hover hover:-translate-y-2 hover:border-primary/50">
+                <div class="glass-panel p-5 rounded-3xl min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center smooth-hover hover:-translate-y-2 hover:border-primary/50">
                     <i class="fa-solid fa-code text-3xl text-primary mb-3"></i>
                     <h3 class="font-bold text-content text-xl">All in One</h3>
                     <p class="text-sm text-muted">Segala Tipe Server</p>
                 </div>
-                <div class="glass-panel p-5 rounded-3xl smooth-hover hover:-translate-y-2 hover:border-primary/50">
+                <div class="glass-panel p-5 rounded-3xl min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center smooth-hover hover:-translate-y-2 hover:border-primary/50">
                     <i class="fa-solid fa-headset text-3xl text-primary mb-3"></i>
                     <h3 class="font-bold text-content text-xl">Pterodactyl</h3>
                     <p class="text-sm text-muted">Premium Support</p>
@@ -288,54 +294,55 @@
     </section>
 
     <!-- Divider -->
-    <div class="w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-30 my-10 transition-colors"></div>
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-30 my-6 lg:my-10 transition-colors"></div>
 
     <!-- Calculator Section -->
-    <section id="kalkulator" class="py-16 px-4">
+    <section id="kalkulator" class="py-12 lg:py-16 px-4">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16 fade-in-up">
-                <h2 class="text-3xl md:text-4xl font-bold text-content mb-4 glow-text">Kalkulator Setup Server</h2>
-                <p class="text-muted max-w-2xl mx-auto">Pilih panel, utilities, dan sesuaikan dengan isi kantongmu. Harga sangat merakyat, transparan, dan kualitas terjamin.</p>
+            <div class="text-center mb-10 lg:mb-16 fade-in-up">
+                <h2 class="text-2xl md:text-4xl font-bold text-content mb-3 glow-text">Kalkulator Setup Server</h2>
+                <p class="text-sm md:text-base text-muted max-w-2xl mx-auto">Pilih panel, utilities, dan sesuaikan budget. Harga transparan dan kualitas terjamin.</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 
                 <!-- Kiri: Form -->
-                <div class="lg:col-span-2 space-y-8">
+                <div class="lg:col-span-2 space-y-6 lg:space-y-8">
                     
                     <!-- Tahap 1: Panel / Hosting -->
-                    <div class="glass-panel rounded-3xl p-6 md:p-8 relative overflow-hidden fade-in-up">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[50px] transition-colors"></div>
-                        <h3 class="text-xl font-bold text-content mb-6 flex items-center">
-                            <span class="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-3 text-sm transition-colors">1</span>
-                            Pilih Opsi Panel / Hosting
+                    <div class="glass-panel rounded-3xl p-5 lg:p-8 relative overflow-hidden fade-in-up">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[50px] transition-colors pointer-events-none"></div>
+                        <h3 class="text-lg lg:text-xl font-bold text-content mb-4 lg:mb-6 flex items-center">
+                            <span class="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-3 text-sm transition-colors">1</span>
+                            Pilih Panel / Hosting
                         </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="hosting-container">
+                        <!-- Mobile Horizontal Scroll, Desktop Grid -->
+                        <div class="flex lg:grid flex-nowrap overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4 -mx-2 px-2 lg:mx-0 lg:px-0 lg:pb-0 lg:grid-cols-2 gap-4" id="hosting-container">
                             <!-- Di-render oleh JS -->
                         </div>
                     </div>
 
                     <!-- Tahap 2: Custom Slider Budget -->
-                    <div class="glass-panel rounded-3xl p-6 md:p-8 fade-in-up" onmouseenter="playHover()" onclick="playClick()">
-                        <h3 class="text-xl font-bold text-content mb-2 flex items-center">
-                            <span class="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-3 text-sm transition-colors">2</span>
-                            Skala Project / Target Budget
+                    <div class="glass-panel rounded-3xl p-5 lg:p-8 fade-in-up" onmouseenter="playHover()" onclick="playClick()">
+                        <h3 class="text-lg lg:text-xl font-bold text-content mb-2 flex items-center">
+                            <span class="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-3 text-sm transition-colors">2</span>
+                            Skala Project / Budget
                         </h3>
-                        <p class="text-sm text-muted mb-6 ml-11">Mulai dari goceng (5k)! Geser slider untuk menyesuaikan dengan budget kantongmu.</p>
+                        <p class="text-xs lg:text-sm text-muted mb-6 ml-10 lg:ml-11">Mulai dari goceng (5k)! Geser slider untuk menyesuaikan budget.</p>
                         
-                        <div class="px-2 md:px-11">
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-4 gap-4">
+                        <div class="px-2 lg:px-11">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-4 gap-2 lg:gap-4">
                                 <div>
-                                    <div class="text-primary font-bold text-sm tracking-widest uppercase mb-1 transition-colors" id="slider-tier-name">Server Iseng</div>
-                                    <div class="text-muted text-xs transition-colors" id="slider-tier-desc">Mabar 2-5 Teman Dekat</div>
+                                    <div class="text-primary font-bold text-xs lg:text-sm tracking-widest uppercase mb-1 transition-colors" id="slider-tier-name">Server Iseng</div>
+                                    <div class="text-muted text-[10px] lg:text-xs transition-colors" id="slider-tier-desc">Mabar 2-5 Teman Dekat</div>
                                 </div>
-                                <div class="text-3xl font-extrabold text-content glow-text transition-all" id="slider-price-display">
+                                <div class="text-2xl lg:text-3xl font-extrabold text-content glow-text transition-all" id="slider-price-display">
                                     Rp 5.000
                                 </div>
                             </div>
                             
                             <!-- Interaktif Range Slider -->
-                            <input type="range" id="budget-slider" min="0" step="1" value="0" class="w-full mt-4" oninput="handleSliderChange(this.value)">
+                            <input type="range" id="budget-slider" min="0" step="1" value="0" class="w-full mt-2 lg:mt-4" oninput="handleSliderChange(this.value)">
                             
                             <div class="flex justify-between text-[10px] text-muted font-bold mt-2">
                                 <span>5 Ribu</span>
@@ -345,49 +352,51 @@
                     </div>
 
                     <!-- Tahap 3: Utilities -->
-                    <div class="glass-panel rounded-3xl p-6 md:p-8 fade-in-up">
-                        <h3 class="text-xl font-bold text-content mb-6 flex items-center">
-                            <span class="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-3 text-sm transition-colors">3</span>
-                            Custom Utilities & Add-ons
+                    <div class="glass-panel rounded-3xl p-5 lg:p-8 fade-in-up">
+                        <h3 class="text-lg lg:text-xl font-bold text-content mb-4 lg:mb-6 flex items-center">
+                            <span class="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-3 text-sm transition-colors">3</span>
+                            Custom Utilities
                         </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="utils-container">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4" id="utils-container">
                             <!-- Di-render oleh JS -->
                         </div>
                     </div>
 
                     <!-- Tahap 4: Discord Developer Presence -->
-                    <div class="glass-panel rounded-3xl p-6 md:p-8 fade-in-up" onmouseenter="playHover()">
-                        <h3 class="text-xl font-bold text-content mb-2 flex items-center">
-                            <span class="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-3 text-sm transition-colors">4</span>
-                            Discord Developer & Maintenance
+                    <div class="glass-panel rounded-3xl p-5 lg:p-8 fade-in-up" onmouseenter="playHover()">
+                        <h3 class="text-lg lg:text-xl font-bold text-content mb-2 flex items-center">
+                            <span class="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-3 text-sm transition-colors">4</span>
+                            Discord Maintenance
                         </h3>
-                        <p class="text-sm text-muted mb-6 ml-11">Add saya ke Discord untuk dapat role Developer. Setup jadi 100% transparan, ada live changelogs, dan support berkelanjutan.</p>
+                        <p class="text-xs lg:text-sm text-muted mb-4 lg:mb-6 ml-10 lg:ml-11">Setup 100% transparan, live changelogs, dan support berkelanjutan.</p>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ml-0 md:ml-11" id="discord-container">
+                        <!-- Mobile Horizontal Scroll, Desktop Grid -->
+                        <div class="flex lg:grid flex-nowrap overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4 -mx-2 px-2 lg:ml-11 lg:mx-0 lg:px-0 lg:pb-0 lg:grid-cols-2 gap-4" id="discord-container">
                             <!-- Di-render oleh JS -->
                         </div>
                     </div>
 
                     <!-- Tahap 5: Deskripsi Request -->
-                    <div class="glass-panel rounded-3xl p-6 md:p-8 fade-in-up" onmouseenter="playHover()">
-                        <h3 class="text-xl font-bold text-content mb-2 flex items-center">
-                            <span class="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-3 text-sm transition-colors">5</span>
-                            Detail Request Server
+                    <div class="glass-panel rounded-3xl p-5 lg:p-8 fade-in-up" onmouseenter="playHover()">
+                        <h3 class="text-lg lg:text-xl font-bold text-content mb-2 flex items-center">
+                            <span class="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-3 text-sm transition-colors">5</span>
+                            Detail Request
                         </h3>
-                        <p class="text-sm text-muted mb-4 ml-11">Tulis request spesifikmu, atau klik tag saran di bawah untuk mempercepat.</p>
+                        <p class="text-xs lg:text-sm text-muted mb-4 ml-10 lg:ml-11">Tulis request spesifik, atau klik tag saran untuk mempercepat.</p>
                         
-                        <div class="ml-0 md:ml-11">
-                            <div class="flex flex-wrap gap-2 mb-4" id="tags-container">
+                        <div class="ml-0 lg:ml-11">
+                            <!-- Swipeable Tags on Mobile -->
+                            <div class="flex lg:flex-wrap flex-nowrap overflow-x-auto hide-scrollbar gap-2 mb-4 pb-2 lg:pb-0" id="tags-container">
                                 <!-- Di-render oleh JS -->
                             </div>
-                            <textarea id="request-desc" rows="4" onclick="playClick()" class="w-full bg-base/80 border border-primary/50 rounded-xl p-4 text-content text-sm placeholder-muted focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all glow-box-hover" placeholder="Contoh: Bang, buatin server survival yang pakai economy shop, ada rank VIP, sama mapnya custom ya..."></textarea>
+                            <textarea id="request-desc" rows="4" onclick="playClick()" class="w-full bg-base/80 border border-primary/50 rounded-2xl p-4 text-content text-sm placeholder-muted focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all glow-box-hover" placeholder="Contoh: Bang, buatin server survival yang pakai economy shop, ada rank VIP, sama mapnya custom ya..."></textarea>
                         </div>
                     </div>
 
                 </div>
 
-                <!-- Kanan: Summary -->
-                <div class="lg:col-span-1 fade-in-up" style="transition-delay: 0.2s;">
+                <!-- Kanan: Summary (HANYA MUNCUL DI DESKTOP) -->
+                <div class="hidden lg:block fade-in-up" style="transition-delay: 0.2s;">
                     <div class="sticky top-24 glass-panel border border-primary/50 rounded-3xl p-6 shadow-[0_0_30px_rgb(var(--primary-rgb)/0.15)]">
                         <h3 class="text-xl font-bold text-content border-b border-primary/30 pb-4 mb-4 flex items-center gap-2">
                             <i class="fa-solid fa-file-contract text-primary"></i> Contract Summary
@@ -426,8 +435,8 @@
                             </div>
                         </div>
 
-                        <div class="border-t border-primary/50 pt-4 mb-6 bg-base/50 p-3 rounded-xl border border-primary/20">
-                            <div class="text-muted text-sm mb-1">Estimasi Total Harga:</div>
+                        <div class="border-t border-primary/50 pt-4 mb-6 bg-base/50 p-4 rounded-2xl border border-primary/20">
+                            <div class="text-muted text-sm mb-1">Estimasi Total:</div>
                             <div class="text-3xl font-extrabold text-content glow-text transition-all" id="sum-total-price">
                                 Rp 0
                             </div>
@@ -444,11 +453,74 @@
         </div>
     </section>
 
+    <!-- MOBILE BOTTOM ACTION BAR (HANYA MUNCUL DI HP) -->
+    <div class="lg:hidden fixed bottom-0 left-0 w-full glass-panel border-t border-primary/40 p-4 px-6 flex justify-between items-center z-50 rounded-t-3xl shadow-[0_-10px_30px_rgba(0,0,0,0.5)] transition-colors">
+        <div class="flex-1 cursor-pointer" onclick="toggleMobileSummary()">
+            <div class="text-[11px] text-muted font-bold mb-0.5 flex items-center gap-1">
+                Lihat Detail <i class="fa-solid fa-chevron-up text-[9px] text-primary animate-bounce"></i>
+            </div>
+            <div class="text-xl font-extrabold text-content glow-text transition-all animate-bump" id="mobile-total-price">Rp 0</div>
+        </div>
+        <button onclick="handleOrder()" class="bg-primary active:scale-95 text-white px-6 py-3.5 rounded-2xl font-bold flex items-center gap-2 shadow-[0_0_15px_rgb(var(--primary-rgb)/0.4)] transition-transform">
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            <span>Pesan</span>
+        </button>
+    </div>
+
+    <!-- MOBILE BOTTOM SHEET MODAL (RINGKASAN PESANAN HP) -->
+    <div id="mobile-summary-modal" class="lg:hidden fixed inset-0 z-[60] flex items-end justify-center pointer-events-none opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-base/80 backdrop-blur-sm pointer-events-auto" onclick="toggleMobileSummary()"></div>
+        <div class="glass-panel border-t border-primary/50 w-full rounded-t-3xl p-6 pointer-events-auto transform translate-y-full transition-transform duration-300 shadow-[0_-20px_50px_rgba(0,0,0,0.8)] flex flex-col max-h-[85vh]" id="mobile-summary-content">
+            <div class="w-12 h-1.5 bg-muted/30 rounded-full mx-auto mb-6 cursor-pointer" onclick="toggleMobileSummary()"></div>
+            
+            <h3 class="text-xl font-bold text-content border-b border-primary/30 pb-4 mb-4 flex items-center gap-2 shrink-0">
+                <i class="fa-solid fa-file-contract text-primary"></i> Ringkasan Pesanan
+            </h3>
+            
+            <div class="space-y-4 mb-6 overflow-y-auto hide-scrollbar flex-1">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="text-[10px] text-primary font-bold uppercase tracking-wider">Hosting</div>
+                        <div class="font-medium text-content text-sm" id="mobile-sum-hosting-name">-</div>
+                    </div>
+                    <div class="text-xs text-muted font-bold" id="mobile-sum-hosting-price">-</div>
+                </div>
+
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="text-[10px] text-primary font-bold uppercase tracking-wider">Skala Budget</div>
+                        <div class="font-medium text-content text-sm" id="mobile-sum-ram-name">-</div>
+                    </div>
+                    <div class="text-xs text-muted font-bold" id="mobile-sum-ram-price">-</div>
+                </div>
+
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="text-[10px] text-primary font-bold uppercase tracking-wider">Maintenance</div>
+                        <div class="font-medium text-content text-sm" id="mobile-sum-discord-name">-</div>
+                    </div>
+                    <div class="text-xs text-muted font-bold" id="mobile-sum-discord-price">-</div>
+                </div>
+
+                <div class="pt-2 border-t border-primary/20">
+                    <div class="text-[10px] text-primary font-bold uppercase tracking-wider mb-2">Utilities:</div>
+                    <div id="mobile-sum-utils-list" class="space-y-1.5">
+                        <!-- Utils list goes here -->
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="toggleMobileSummary()" class="w-full py-3.5 mt-2 rounded-2xl bg-muted/10 border border-muted/20 text-content font-bold active:scale-95 transition-transform shrink-0">
+                Tutup Ringkasan
+            </button>
+        </div>
+    </div>
+
     <!-- Footer -->
-    <footer class="border-t border-primary/30 bg-base py-8 mt-10 transition-colors">
+    <footer class="border-t border-primary/30 bg-base py-8 mt-4 lg:mt-10 transition-colors pb-32 lg:pb-8">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <i class="fa-solid fa-dragon text-3xl text-primary mb-4 opacity-50"></i>
-            <p class="text-muted text-sm">
+            <p class="text-muted text-sm px-4">
                 &copy; <script>document.write(new Date().getFullYear())</script> Sanopalz Server Developer.<br>
                 Semua setup disesuaikan dengan standar performa tertinggi.
             </p>
@@ -459,8 +531,8 @@
     <script>
         // --- DATA KONFIGURASI ---
         const HOSTING_OPTIONS = [
-            { id: 'own', name: 'Punya Panel Sendiri', desc: 'Kamu siapkan Host/Panel Pterodactyl, saya tinggal setup.', price: 0, icon: 'fa-server' },
-            { id: 'sano', name: 'Pakai Host Sanopalz', desc: 'Menggunakan Premium Standard Host dari server kami.', price: 35000, icon: 'fa-cloud' }
+            { id: 'own', name: 'Panel Sendiri', desc: 'Siapkan Host Pterodactyl, saya setup.', price: 0, icon: 'fa-server' },
+            { id: 'sano', name: 'Host Sanopalz', desc: 'Pakai Premium Host dari server kami.', price: 35000, icon: 'fa-cloud' }
         ];
 
         // --- CUSTOM SLIDER DATA (5K to 50M) ---
@@ -487,25 +559,25 @@
         };
 
         const UTILITIES = [
-            { id: 'geyser', name: 'GeyserMC (Crossplay)', desc: 'Player HP (Bedrock) bisa masuk server Java.', price: 15000, icon: 'fa-mobile-screen' },
-            { id: 'anticheat', name: 'Anti-Cheat Setup', desc: 'Mencegah hacker (Killaura, Speed, dll).', price: 20000, icon: 'fa-shield-halved' },
-            { id: 'discord', name: 'Discord Webhook', desc: 'Sinkronisasi chat & status bot di Discord.', price: 15000, icon: 'fa-brands fa-discord' },
-            { id: 'dynmap', name: 'Web Map (Dynmap)', desc: 'Peta dunia server yang bisa dilihat di browser.', price: 10000, icon: 'fa-map-location-dot' },
-            { id: 'economy', name: 'Economy & Shop', desc: 'Sistem uang, shop GUI, dan Auction House.', price: 15000, icon: 'fa-coins' },
-            { id: 'luckperms', name: 'LuckPerms (Ranks)', desc: 'Setup rank VIP, Admin, Member + Prefix.', price: 10000, icon: 'fa-crown' }
+            { id: 'geyser', name: 'GeyserMC (Crossplay)', desc: 'Player Bedrock bisa masuk Java.', price: 15000, icon: 'fa-mobile-screen' },
+            { id: 'anticheat', name: 'Anti-Cheat Setup', desc: 'Cegah hacker (Killaura, dll).', price: 20000, icon: 'fa-shield-halved' },
+            { id: 'discord', name: 'Discord Webhook', desc: 'Sync chat & status bot.', price: 15000, icon: 'fa-brands fa-discord' },
+            { id: 'dynmap', name: 'Web Map (Dynmap)', desc: 'Peta dunia via browser.', price: 10000, icon: 'fa-map-location-dot' },
+            { id: 'economy', name: 'Economy & Shop', desc: 'Uang, GUI, Auction House.', price: 15000, icon: 'fa-coins' },
+            { id: 'luckperms', name: 'LuckPerms (Ranks)', desc: 'Rank VIP, Admin + Prefix.', price: 10000, icon: 'fa-crown' }
         ];
 
         const DISCORD_DEV_OPTIONS = [
-            { id: 'none', name: 'Tidak Perlu', desc: 'Hanya setup server dasar (One-time).', price: 0, icon: 'fa-user-xmark' },
-            { id: '1month', name: '1 Bulan Maintenance', desc: 'Role Dev, setup transparan & rutin changelogs.', price: 30000, icon: 'fa-calendar-days' },
-            { id: '3months', name: '3 Bulan Maintenance', desc: 'Pantau server lebih lama dan stabil.', price: 80000, icon: 'fa-calendar-week' },
-            { id: 'lifetime', name: 'Permanent Dev', desc: 'Support kapanpun, nempel terus di Discord.', price: 250000, icon: 'fa-infinity' }
+            { id: 'none', name: 'Tidak Perlu', desc: 'Hanya setup dasar (One-time).', price: 0, icon: 'fa-user-xmark' },
+            { id: '1month', name: '1 Bulan Maintenance', desc: 'Role Dev & rutin changelogs.', price: 30000, icon: 'fa-calendar-days' },
+            { id: '3months', name: '3 Bulan Maintenance', desc: 'Pantau server lebih lama.', price: 80000, icon: 'fa-calendar-week' },
+            { id: 'lifetime', name: 'Permanent Dev', desc: 'Support kapanpun di Discord.', price: 250000, icon: 'fa-infinity' }
         ];
 
         const SUGGESTION_TAGS = [
             "Survival SMP", "Economy Shop", "Hardcore Mode", "Bedwars", "Skyblock", 
-            "RPG Leveling", "Custom Biome", "Anti-Cheat Ketat", "Crossplay (Java+PE)", 
-            "VIP Ranks", "Custom Mobs", "Minigames Hub", "Pakai PaperMC", "Pakai Fabric/Mod", "Server Bedrock", "Proxy Server"
+            "RPG Leveling", "Custom Biome", "Anti-Cheat Ketat", "Crossplay", 
+            "VIP Ranks", "Minigames Hub", "Pakai PaperMC", "Pakai Fabric/Mod"
         ];
 
         // --- STATE APLIKASI ---
@@ -517,22 +589,16 @@
         };
 
         // --- THEME TOGGLE LOGIC ---
-        // Hex Converter
         const hexToRgb = (hex) => {
-            let r = parseInt(hex.slice(1, 3), 16);
-            let g = parseInt(hex.slice(3, 5), 16);
-            let b = parseInt(hex.slice(5, 7), 16);
+            let r = parseInt(hex.slice(1, 3), 16); let g = parseInt(hex.slice(3, 5), 16); let b = parseInt(hex.slice(5, 7), 16);
             return `${r} ${g} ${b}`;
         };
 
         window.setPrimaryColor = (rgbString) => {
             document.documentElement.style.setProperty('--primary-rgb', rgbString);
-            
-            // Re-render slider gradient immediately
             const slider = document.getElementById('budget-slider');
             updateSliderGradient(slider);
             
-            // Sinkronkan picker hex jika dipanggil dari preset button
             const rgbArr = rgbString.split(' ');
             if(rgbArr.length === 3) {
                 const hex = "#" + (1 << 24 | rgbArr[0] << 16 | rgbArr[1] << 8 | rgbArr[2]).toString(16).slice(1);
@@ -540,9 +606,7 @@
             }
         };
 
-        window.handleColorPicker = (e) => {
-            setPrimaryColor(hexToRgb(e.target.value));
-        };
+        window.handleColorPicker = (e) => setPrimaryColor(hexToRgb(e.target.value));
 
         let isLightMode = false;
         window.toggleThemeMode = () => {
@@ -556,7 +620,6 @@
                 document.getElementById('mode-toggle-knob').style.transform = 'translateX(0)';
                 document.getElementById('mode-text').innerText = 'Dark Mode';
             }
-            // Update slider back layer color depends on theme
             const slider = document.getElementById('budget-slider');
             updateSliderGradient(slider);
         };
@@ -574,27 +637,37 @@
             }
         };
 
+        // --- MOBILE BOTTOM SHEET LOGIC ---
+        let isMobileSummaryOpen = false;
+        window.toggleMobileSummary = () => {
+            isMobileSummaryOpen = !isMobileSummaryOpen;
+            const modal = document.getElementById('mobile-summary-modal');
+            const content = document.getElementById('mobile-summary-content');
+            
+            if (isMobileSummaryOpen) {
+                modal.classList.remove('pointer-events-none', 'opacity-0');
+                content.classList.remove('translate-y-full');
+            } else {
+                modal.classList.add('pointer-events-none', 'opacity-0');
+                content.classList.add('translate-y-full');
+            }
+        };
+
         // --- WEB AUDIO API (SOUND EFFECTS) ---
         let audioCtx;
         window.initAudio = () => {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
         };
 
         const playTone = (freq, type, duration, vol) => {
             if (!audioCtx) return;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = type;
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
             gain.gain.setValueAtTime(vol, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + duration);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + duration);
         };
 
         window.playHover = () => playTone(800, 'sine', 0.1, 0.02);
@@ -603,26 +676,21 @@
         window.playPop = () => playTone(1500, 'sine', 0.08, 0.03);
 
         // --- FORMATTER ---
-        const formatRp = (num) => {
-            if (num === 0) return 'Gratis';
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
-        };
-        const formatRpNumber = (num) => {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
-        };
+        const formatRp = (num) => num === 0 ? 'Gratis' : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
+        const formatRpNumber = (num) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
 
         // --- RENDER FUNCTIONS ---
         function renderHosting() {
             const container = document.getElementById('hosting-container');
             container.innerHTML = HOSTING_OPTIONS.map(h => `
                 <div onmouseenter="playHover()" onclick="playClick(); selectOption('hosting', '${h.id}')" 
-                     class="cursor-pointer p-5 rounded-2xl border border-primary/30 bg-panel/40 smooth-hover hover:-translate-y-1 glow-box-hover ${state.hosting.id === h.id ? 'glow-box-active border-primary' : ''}">
+                     class="min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center cursor-pointer p-5 rounded-3xl border border-primary/30 bg-panel/40 smooth-hover lg:hover:-translate-y-1 glow-box-hover ${state.hosting.id === h.id ? 'glow-box-active border-primary' : ''}">
                     <div class="flex items-center gap-3 mb-2">
                         <i class="fa-solid ${h.icon} text-2xl smooth-hover ${state.hosting.id === h.id ? 'text-primary scale-110' : 'text-muted'}"></i>
-                        <div class="font-bold text-content">${h.name}</div>
+                        <div class="font-bold text-content whitespace-nowrap">${h.name}</div>
                     </div>
-                    <p class="text-xs text-muted mb-2">${h.desc}</p>
-                    <div class="text-sm font-bold ${h.price === 0 ? 'text-green-500' : 'text-primary'}">+ ${formatRp(h.price)}</div>
+                    <p class="text-[11px] text-muted mb-2 line-clamp-2">${h.desc}</p>
+                    <div class="text-xs font-bold ${h.price === 0 ? 'text-green-500' : 'text-primary'}">+ ${formatRp(h.price)}</div>
                 </div>
             `).join('');
         }
@@ -633,16 +701,16 @@
                 const isSelected = state.utils.includes(u.id);
                 return `
                 <div onmouseenter="playHover()" onclick="playClick(); toggleUtil('${u.id}')" 
-                     class="cursor-pointer p-4 rounded-2xl border border-primary/30 bg-panel/40 smooth-hover hover:-translate-y-1 glow-box-hover flex gap-3 items-start ${isSelected ? 'border-primary shadow-[0_0_15px_rgb(var(--primary-rgb)/0.2)] bg-primary/10' : ''}">
+                     class="cursor-pointer p-4 rounded-3xl border border-primary/30 bg-panel/40 smooth-hover lg:hover:-translate-y-1 glow-box-hover flex gap-3 items-start ${isSelected ? 'border-primary shadow-[0_0_15px_rgb(var(--primary-rgb)/0.2)] bg-primary/10' : ''}">
                     <div class="mt-1 smooth-hover ${isSelected ? 'text-primary scale-110' : 'text-muted'}">
                         ${isSelected ? '<i class="fa-solid fa-square-check text-lg"></i>' : `<i class="fa-solid ${u.icon} text-lg"></i>`}
                     </div>
-                    <div class="flex-1">
+                    <div class="flex-1 min-w-0">
                         <div class="flex justify-between items-start mb-1">
-                            <div class="font-bold text-content text-sm">${u.name}</div>
-                            <div class="text-primary text-xs font-bold">+${formatRp(u.price)}</div>
+                            <div class="font-bold text-content text-sm truncate pr-2">${u.name}</div>
+                            <div class="text-primary text-[10px] sm:text-xs font-bold shrink-0">+${formatRp(u.price)}</div>
                         </div>
-                        <p class="text-[11px] text-muted">${u.desc}</p>
+                        <p class="text-[10px] sm:text-[11px] text-muted leading-tight">${u.desc}</p>
                     </div>
                 </div>
             `}).join('');
@@ -651,7 +719,7 @@
         function renderTags() {
             const container = document.getElementById('tags-container');
             container.innerHTML = SUGGESTION_TAGS.map(tag => `
-                <span onclick="appendTag('${tag}')" class="cursor-pointer px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-xl text-xs font-semibold text-muted smooth-hover hover:text-white hover:bg-primary hover:border-primary hover:-translate-y-1 shadow-sm">
+                <span onclick="appendTag('${tag}')" class="shrink-0 cursor-pointer px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-xl text-xs font-semibold text-muted smooth-hover hover:text-white hover:bg-primary hover:border-primary lg:hover:-translate-y-1 shadow-sm">
                     + ${tag}
                 </span>
             `).join('');
@@ -661,17 +729,17 @@
             const container = document.getElementById('discord-container');
             container.innerHTML = DISCORD_DEV_OPTIONS.map(d => `
                 <div onmouseenter="playHover()" onclick="playClick(); selectOption('discord', '${d.id}')" 
-                     class="cursor-pointer p-4 rounded-2xl border border-primary/30 bg-panel/40 smooth-hover hover:-translate-y-1 glow-box-hover ${state.discordDev.id === d.id ? 'glow-box-active border-primary' : ''}">
+                     class="min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center cursor-pointer p-4 rounded-3xl border border-primary/30 bg-panel/40 smooth-hover lg:hover:-translate-y-1 glow-box-hover ${state.discordDev.id === d.id ? 'glow-box-active border-primary' : ''}">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="w-8 h-8 rounded-full bg-base flex items-center justify-center border border-primary/30 smooth-hover ${state.discordDev.id === d.id ? 'scale-110 bg-primary' : ''}">
+                        <div class="w-8 h-8 rounded-full bg-base shrink-0 flex items-center justify-center border border-primary/30 smooth-hover ${state.discordDev.id === d.id ? 'scale-110 bg-primary' : ''}">
                             <i class="fa-solid ${d.icon} ${state.discordDev.id === d.id ? 'text-white' : 'text-muted'}"></i>
                         </div>
-                        <div class="flex-1">
-                            <div class="font-bold text-content text-sm">${d.name}</div>
-                            <div class="text-sm font-bold ${d.price === 0 ? 'text-muted' : 'text-primary'}">${d.price === 0 ? 'Gratis' : '+' + formatRp(d.price)}</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-bold text-content text-sm truncate">${d.name}</div>
+                            <div class="text-[11px] font-bold ${d.price === 0 ? 'text-muted' : 'text-primary'}">${d.price === 0 ? 'Gratis' : '+' + formatRp(d.price)}</div>
                         </div>
                     </div>
-                    <p class="text-[11px] text-muted leading-relaxed">${d.desc}</p>
+                    <p class="text-[10px] text-muted leading-relaxed line-clamp-2">${d.desc}</p>
                 </div>
             `).join('');
         }
@@ -686,18 +754,16 @@
         const updateSliderGradient = (slider) => {
             const percentage = (slider.value / slider.max) * 100;
             const rgb = getComputedStyle(document.documentElement).getPropertyValue('--primary-rgb').trim().split(' ').join(',');
-            
-            // Baca warna panel untuk bagian belakang slider (lebih adaptif jika di mode terang)
             const panelRgb = getComputedStyle(document.documentElement).getPropertyValue('--panel-rgb').trim().split(' ').join(',');
             slider.style.background = `linear-gradient(to right, rgb(${rgb}) ${percentage}%, rgba(${panelRgb}, 0.6) ${percentage}%)`;
         };
 
         const triggerPriceBump = () => {
-            const elements = [document.getElementById('slider-price-display'), document.getElementById('sum-total-price')];
+            const elements = [document.getElementById('slider-price-display'), document.getElementById('sum-total-price'), document.getElementById('mobile-total-price')];
             elements.forEach(el => {
                 if(el) {
                     el.classList.remove('animate-bump');
-                    void el.offsetWidth; // Trigger reflow agar animasi bisa di-restart
+                    void el.offsetWidth; 
                     el.classList.add('animate-bump');
                 }
             });
@@ -721,11 +787,8 @@
         };
 
         window.toggleUtil = (id) => {
-            if (state.utils.includes(id)) {
-                state.utils = state.utils.filter(u => u !== id);
-            } else {
-                state.utils.push(id);
-            }
+            if (state.utils.includes(id)) state.utils = state.utils.filter(u => u !== id);
+            else state.utils.push(id);
             updateUI();
         };
 
@@ -734,77 +797,63 @@
             const textarea = document.getElementById('request-desc');
             const currentVal = textarea.value.trim();
             
-            if (currentVal === '') {
-                textarea.value = tagText;
-            } else {
-                if (currentVal.endsWith(',')) {
-                    textarea.value = currentVal + ' ' + tagText;
-                } else {
-                    textarea.value = currentVal + ', ' + tagText;
-                }
-            }
+            if (currentVal === '') textarea.value = tagText;
+            else if (currentVal.endsWith(',')) textarea.value = currentVal + ' ' + tagText;
+            else textarea.value = currentVal + ', ' + tagText;
             
             textarea.classList.add('glow-box-active');
-            setTimeout(() => {
-                textarea.classList.remove('glow-box-active');
-            }, 300);
+            setTimeout(() => textarea.classList.remove('glow-box-active'), 300);
         };
 
         // --- UPDATE SUMMARY & UI ---
         function updateUI() {
-            renderHosting();
-            renderUtils();
-            renderDiscordDev();
+            renderHosting(); renderUtils(); renderDiscordDev();
 
             const currentScalePrice = PRICE_STEPS[state.scaleIndex];
             const tierInfo = getTierInfo(currentScalePrice);
 
+            // Update Desktop Summary
             document.getElementById('sum-hosting-name').innerText = state.hosting.name;
             document.getElementById('sum-hosting-price').innerText = formatRp(state.hosting.price);
-            
             document.getElementById('sum-ram-name').innerText = tierInfo.name;
             document.getElementById('sum-ram-price').innerText = currentScalePrice === 0 ? 'Gratis' : formatRp(currentScalePrice);
-
             document.getElementById('sum-discord-name').innerText = state.discordDev.name;
             document.getElementById('sum-discord-price').innerText = state.discordDev.price === 0 ? 'Gratis' : formatRp(state.discordDev.price);
 
-            const utilsList = document.getElementById('sum-utils-list');
-            if (state.utils.length === 0) {
-                utilsList.innerHTML = '<div class="text-sm text-muted italic">- Tidak ada add-ons</div>';
-            } else {
-                utilsList.innerHTML = state.utils.map(id => {
+            // Update Mobile Summary
+            document.getElementById('mobile-sum-hosting-name').innerText = state.hosting.name;
+            document.getElementById('mobile-sum-hosting-price').innerText = formatRp(state.hosting.price);
+            document.getElementById('mobile-sum-ram-name').innerText = tierInfo.name;
+            document.getElementById('mobile-sum-ram-price').innerText = currentScalePrice === 0 ? 'Gratis' : formatRp(currentScalePrice);
+            document.getElementById('mobile-sum-discord-name').innerText = state.discordDev.name;
+            document.getElementById('mobile-sum-discord-price').innerText = state.discordDev.price === 0 ? 'Gratis' : formatRp(state.discordDev.price);
+
+            // Update Utils Lists
+            const utilsHtml = state.utils.length === 0 
+                ? '<div class="text-xs text-muted italic">- Tidak ada add-ons</div>'
+                : state.utils.map(id => {
                     const u = UTILITIES.find(util => util.id === id);
-                    return `
-                        <div class="flex justify-between text-sm">
-                            <span class="text-muted">• ${u.name}</span>
-                            <span class="text-primary">+${formatRp(u.price)}</span>
-                        </div>
-                    `;
+                    return `<div class="flex justify-between text-xs sm:text-sm"><span class="text-muted">• ${u.name}</span><span class="text-primary font-bold">+${formatRp(u.price)}</span></div>`;
                 }).join('');
-            }
 
-            const utilsPriceTotal = state.utils.reduce((sum, id) => {
-                const u = UTILITIES.find(util => util.id === id);
-                return sum + u.price;
-            }, 0);
+            document.getElementById('sum-utils-list').innerHTML = utilsHtml;
+            document.getElementById('mobile-sum-utils-list').innerHTML = utilsHtml;
 
+            // Calculate Total
+            const utilsPriceTotal = state.utils.reduce((sum, id) => sum + UTILITIES.find(util => util.id === id).price, 0);
             const total = state.hosting.price + currentScalePrice + state.discordDev.price + utilsPriceTotal;
+            
             document.getElementById('sum-total-price').innerText = formatRpNumber(total);
+            document.getElementById('mobile-total-price').innerText = formatRpNumber(total);
         }
 
         // --- WHATSAPP ORDER ---
         window.handleOrder = () => {
             playClick();
-            
             const currentScalePrice = PRICE_STEPS[state.scaleIndex];
             const tierInfo = getTierInfo(currentScalePrice);
-            
-            const utilsNameList = state.utils.length > 0 
-                ? state.utils.map(id => UTILITIES.find(u => u.id === id).name).join(', ') 
-                : 'Tidak ada';
-                
+            const utilsNameList = state.utils.length > 0 ? state.utils.map(id => UTILITIES.find(u => u.id === id).name).join(', ') : 'Tidak ada';
             const userDesc = document.getElementById('request-desc').value.trim() || 'Tidak ada deskripsi khusus.';
-
             const totalPrice = state.hosting.price + currentScalePrice + state.discordDev.price + state.utils.reduce((sum, id) => sum + UTILITIES.find(u => u.id === id).price, 0);
 
             const text = `🔥 *Order Setup Server Sanopalz* 🔥%0A%0A`
@@ -820,32 +869,23 @@
             window.open(`https://wa.me/6281234567890?text=${text}`, '_blank');
         };
 
-        // --- INTERSECTION OBSERVER ---
+        // --- SCROLL ANIMATION & PARALLAX ---
         const setupObserver = () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
-                });
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
             }, { threshold: 0.1 });
-
-            document.querySelectorAll('.fade-in-up').forEach(el => {
-                observer.observe(el);
-            });
+            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
         };
 
-        // --- MOUSE PARALLAX EFFECT ---
         const setupParallax = () => {
+            if (window.innerWidth < 1024) return; // Disable parallax mouse on mobile for better performance
             document.addEventListener('mousemove', (e) => {
                 const x = (e.clientX / window.innerWidth - 0.5) * 2;
                 const y = (e.clientY / window.innerHeight - 0.5) * 2;
-
                 document.querySelectorAll('.ambient-blob').forEach((blob, index) => {
                     const speed = (index + 1) * 20;
                     blob.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
                 });
-
                 document.querySelectorAll('.ambient-particle').forEach((particle, index) => {
                     const speed = (index + 1) * 10;
                     particle.style.setProperty('--px', `${x * -speed}px`);
@@ -854,18 +894,12 @@
             });
         };
 
-        // Initialize on Load
         document.addEventListener('DOMContentLoaded', () => {
             const slider = document.getElementById('budget-slider');
             slider.max = PRICE_STEPS.length - 1;
             updateSliderGradient(slider);
-            
-            renderTags();
-            updateUI();
-            setupObserver();
-            setupParallax();
+            renderTags(); updateUI(); setupObserver(); setupParallax();
         });
-
     </script>
 </body>
 </html>
