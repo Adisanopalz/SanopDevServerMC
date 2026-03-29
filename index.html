@@ -105,6 +105,7 @@
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
         }
         .fade-in-up.is-visible {
             opacity: 1;
@@ -122,6 +123,7 @@
         }
         .floating-particle {
             animation: float 6s ease-in-out infinite;
+            will-change: transform, opacity;
         }
 
         /* Custom Range Slider Dinamis */
@@ -187,15 +189,15 @@
 </head>
 <body class="antialiased selection:bg-primary selection:text-white relative pb-28 lg:pb-0" onclick="initAudio()">
 
-    <!-- Ambient Background Elements -->
+    <!-- Ambient Background Elements (Optimasi Blur Mobile) -->
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none" id="parallax-bg">
-        <div class="ambient-blob absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] transition-transform duration-1000 ease-out"></div>
-        <div class="ambient-blob absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[150px] transition-transform duration-1000 ease-out"></div>
+        <div class="ambient-blob absolute top-[-10%] left-[-10%] w-[50%] h-[50%] md:w-[40%] md:h-[40%] bg-primary/20 rounded-full blur-[80px] md:blur-[120px] transition-transform duration-1000 ease-out will-change-transform"></div>
+        <div class="ambient-blob absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] md:w-[50%] md:h-[50%] bg-primary/10 rounded-full blur-[90px] md:blur-[150px] transition-transform duration-1000 ease-out will-change-transform"></div>
         
         <!-- Floating Ambient Particles -->
-        <div class="ambient-particle absolute top-[20%] left-[10%] w-2 h-2 bg-primary rounded-full floating-particle blur-[2px] transition-transform duration-700 ease-out" style="animation-delay: 0s;"></div>
-        <div class="ambient-particle absolute top-[60%] left-[80%] w-3 h-3 bg-primary rounded-full floating-particle blur-[3px] transition-transform duration-700 ease-out" style="animation-delay: 2s;"></div>
-        <div class="ambient-particle absolute top-[80%] left-[30%] w-4 h-4 bg-primary rounded-full floating-particle blur-[4px] transition-transform duration-700 ease-out" style="animation-delay: 4s;"></div>
+        <div class="ambient-particle absolute top-[20%] left-[10%] w-2 h-2 bg-primary rounded-full floating-particle blur-[1px] md:blur-[2px] transition-transform duration-700 ease-out" style="animation-delay: 0s;"></div>
+        <div class="ambient-particle absolute top-[60%] left-[80%] w-3 h-3 bg-primary rounded-full floating-particle blur-[2px] md:blur-[3px] transition-transform duration-700 ease-out" style="animation-delay: 2s;"></div>
+        <div class="ambient-particle absolute top-[80%] left-[30%] w-4 h-4 bg-primary rounded-full floating-particle blur-[2px] md:blur-[4px] transition-transform duration-700 ease-out" style="animation-delay: 4s;"></div>
         <div class="ambient-particle absolute top-[30%] left-[60%] w-1.5 h-1.5 bg-primary rounded-full floating-particle blur-[1px] transition-transform duration-700 ease-out" style="animation-delay: 1s;"></div>
     </div>
 
@@ -267,27 +269,27 @@
                 Halo, saya <span class="text-content font-bold">Sanopalz</span>. Spesialis developer server Minecraft dan panel Pterodactyl. Menangani dari SMP ringan hingga modpack hardcore dan jaringan proxy raksasa.
             </p>
             
-            <!-- Mobile Horizontal Scroll, Desktop Grid -->
-            <div class="flex lg:grid lg:grid-cols-4 gap-4 text-left mt-8 overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4 -mx-4 px-4 lg:mx-0 lg:px-0 lg:pb-0">
-                <div class="glass-panel p-5 rounded-3xl min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center smooth-hover hover:-translate-y-2 hover:border-primary/50">
-                    <i class="fa-solid fa-server text-3xl text-primary mb-3"></i>
-                    <h3 class="font-bold text-content text-xl">40+</h3>
-                    <p class="text-sm text-muted">Server Aktif</p>
+            <!-- Perbaikan Layout Stats: Grid untuk semua ukuran -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 text-left mt-8">
+                <div class="glass-panel p-4 md:p-5 rounded-3xl smooth-hover lg:hover:-translate-y-2 lg:hover:border-primary/50">
+                    <i class="fa-solid fa-server text-2xl md:text-3xl text-primary mb-2 md:mb-3"></i>
+                    <h3 class="font-bold text-content text-lg md:text-xl">40+</h3>
+                    <p class="text-xs md:text-sm text-muted">Server Aktif</p>
                 </div>
-                <div class="glass-panel p-5 rounded-3xl min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center smooth-hover hover:-translate-y-2 hover:border-primary/50">
-                    <i class="fa-solid fa-layer-group text-3xl text-primary mb-3"></i>
-                    <h3 class="font-bold text-content text-xl">20+</h3>
-                    <p class="text-sm text-muted">Varian Series</p>
+                <div class="glass-panel p-4 md:p-5 rounded-3xl smooth-hover lg:hover:-translate-y-2 lg:hover:border-primary/50">
+                    <i class="fa-solid fa-layer-group text-2xl md:text-3xl text-primary mb-2 md:mb-3"></i>
+                    <h3 class="font-bold text-content text-lg md:text-xl">20+</h3>
+                    <p class="text-xs md:text-sm text-muted">Varian Series</p>
                 </div>
-                <div class="glass-panel p-5 rounded-3xl min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center smooth-hover hover:-translate-y-2 hover:border-primary/50">
-                    <i class="fa-solid fa-code text-3xl text-primary mb-3"></i>
-                    <h3 class="font-bold text-content text-xl">All in One</h3>
-                    <p class="text-sm text-muted">Segala Tipe Server</p>
+                <div class="glass-panel p-4 md:p-5 rounded-3xl smooth-hover lg:hover:-translate-y-2 lg:hover:border-primary/50">
+                    <i class="fa-solid fa-code text-2xl md:text-3xl text-primary mb-2 md:mb-3"></i>
+                    <h3 class="font-bold text-content text-lg md:text-xl">All in One</h3>
+                    <p class="text-xs md:text-sm text-muted">Segala Server</p>
                 </div>
-                <div class="glass-panel p-5 rounded-3xl min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center smooth-hover hover:-translate-y-2 hover:border-primary/50">
-                    <i class="fa-solid fa-headset text-3xl text-primary mb-3"></i>
-                    <h3 class="font-bold text-content text-xl">Pterodactyl</h3>
-                    <p class="text-sm text-muted">Premium Support</p>
+                <div class="glass-panel p-4 md:p-5 rounded-3xl smooth-hover lg:hover:-translate-y-2 lg:hover:border-primary/50">
+                    <i class="fa-solid fa-headset text-2xl md:text-3xl text-primary mb-2 md:mb-3"></i>
+                    <h3 class="font-bold text-content text-lg md:text-xl">Pterodactyl</h3>
+                    <p class="text-xs md:text-sm text-muted">Premium Support</p>
                 </div>
             </div>
         </div>
@@ -316,8 +318,8 @@
                             <span class="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-3 text-sm transition-colors">1</span>
                             Pilih Panel / Hosting
                         </h3>
-                        <!-- Mobile Horizontal Scroll, Desktop Grid -->
-                        <div class="flex lg:grid flex-nowrap overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4 -mx-2 px-2 lg:mx-0 lg:px-0 lg:pb-0 lg:grid-cols-2 gap-4" id="hosting-container">
+                        <!-- Perbaikan Layout: Grid murni agar tidak perlu digeser-geser -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4" id="hosting-container">
                             <!-- Di-render oleh JS -->
                         </div>
                     </div>
@@ -370,8 +372,8 @@
                         </h3>
                         <p class="text-xs lg:text-sm text-muted mb-4 lg:mb-6 ml-10 lg:ml-11">Setup 100% transparan, live changelogs, dan support berkelanjutan.</p>
                         
-                        <!-- Mobile Horizontal Scroll, Desktop Grid -->
-                        <div class="flex lg:grid flex-nowrap overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4 -mx-2 px-2 lg:ml-11 lg:mx-0 lg:px-0 lg:pb-0 lg:grid-cols-2 gap-4" id="discord-container">
+                        <!-- Perbaikan Layout: Grid murni menyesuaikan ke bawah -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4 ml-0 lg:ml-11" id="discord-container">
                             <!-- Di-render oleh JS -->
                         </div>
                     </div>
@@ -385,8 +387,8 @@
                         <p class="text-xs lg:text-sm text-muted mb-4 ml-10 lg:ml-11">Tulis request spesifik, atau klik tag saran untuk mempercepat.</p>
                         
                         <div class="ml-0 lg:ml-11">
-                            <!-- Swipeable Tags on Mobile -->
-                            <div class="flex lg:flex-wrap flex-nowrap overflow-x-auto hide-scrollbar gap-2 mb-4 pb-2 lg:pb-0" id="tags-container">
+                            <!-- Perbaikan Layout Tags: Flex Wrap agar otomatis turun ke bawah -->
+                            <div class="flex flex-wrap gap-2 mb-4" id="tags-container">
                                 <!-- Di-render oleh JS -->
                             </div>
                             <textarea id="request-desc" rows="4" onclick="playClick()" class="w-full bg-base/80 border border-primary/50 rounded-2xl p-4 text-content text-sm placeholder-muted focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all glow-box-hover" placeholder="Contoh: Bang, buatin server survival yang pakai economy shop, ada rank VIP, sama mapnya custom ya..."></textarea>
@@ -680,11 +682,12 @@
         const formatRpNumber = (num) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
 
         // --- RENDER FUNCTIONS ---
+        // Penyesuaian class CSS di Javascript agar responsif
         function renderHosting() {
             const container = document.getElementById('hosting-container');
             container.innerHTML = HOSTING_OPTIONS.map(h => `
                 <div onmouseenter="playHover()" onclick="playClick(); selectOption('hosting', '${h.id}')" 
-                     class="min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center cursor-pointer p-5 rounded-3xl border border-primary/30 bg-panel/40 smooth-hover lg:hover:-translate-y-1 glow-box-hover ${state.hosting.id === h.id ? 'glow-box-active border-primary' : ''}">
+                     class="cursor-pointer p-4 lg:p-5 rounded-3xl border border-primary/30 bg-panel/40 smooth-hover lg:hover:-translate-y-1 glow-box-hover ${state.hosting.id === h.id ? 'glow-box-active border-primary' : ''}">
                     <div class="flex items-center gap-3 mb-2">
                         <i class="fa-solid ${h.icon} text-2xl smooth-hover ${state.hosting.id === h.id ? 'text-primary scale-110' : 'text-muted'}"></i>
                         <div class="font-bold text-content whitespace-nowrap">${h.name}</div>
@@ -719,7 +722,7 @@
         function renderTags() {
             const container = document.getElementById('tags-container');
             container.innerHTML = SUGGESTION_TAGS.map(tag => `
-                <span onclick="appendTag('${tag}')" class="shrink-0 cursor-pointer px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-xl text-xs font-semibold text-muted smooth-hover hover:text-white hover:bg-primary hover:border-primary lg:hover:-translate-y-1 shadow-sm">
+                <span onclick="appendTag('${tag}')" class="cursor-pointer px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-xl text-xs font-semibold text-muted smooth-hover hover:text-white hover:bg-primary hover:border-primary lg:hover:-translate-y-1 shadow-sm">
                     + ${tag}
                 </span>
             `).join('');
@@ -729,7 +732,7 @@
             const container = document.getElementById('discord-container');
             container.innerHTML = DISCORD_DEV_OPTIONS.map(d => `
                 <div onmouseenter="playHover()" onclick="playClick(); selectOption('discord', '${d.id}')" 
-                     class="min-w-[75vw] sm:min-w-[250px] lg:min-w-0 snap-center cursor-pointer p-4 rounded-3xl border border-primary/30 bg-panel/40 smooth-hover lg:hover:-translate-y-1 glow-box-hover ${state.discordDev.id === d.id ? 'glow-box-active border-primary' : ''}">
+                     class="cursor-pointer p-4 rounded-3xl border border-primary/30 bg-panel/40 smooth-hover lg:hover:-translate-y-1 glow-box-hover ${state.discordDev.id === d.id ? 'glow-box-active border-primary' : ''}">
                     <div class="flex items-center gap-3 mb-2">
                         <div class="w-8 h-8 rounded-full bg-base shrink-0 flex items-center justify-center border border-primary/30 smooth-hover ${state.discordDev.id === d.id ? 'scale-110 bg-primary' : ''}">
                             <i class="fa-solid ${d.icon} ${state.discordDev.id === d.id ? 'text-white' : 'text-muted'}"></i>
